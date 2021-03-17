@@ -96,14 +96,12 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      // run the function hasrowconflictat
-      // on every row of the matrix
       for (var i = 0; i < this.attributes.n; i ++) {
         if (this.hasRowConflictAt(i)) {
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
 
@@ -113,12 +111,27 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var counter = 0;
+      for (var i = 0; i < this.attributes.n; i++) {
+        if (this.attributes[i][colIndex] === 1) {
+          counter++;
+        }
+      }
+      if (counter > 1) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i < this.attributes.n; i ++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -127,8 +140,32 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMajorDiagonalConflictAt: function(columnAndRow) {
+      //columnAndRow[0,0]
+      // row [first], colum [second]
+      var row = columnAndRow[0];
+      var col = columnAndRow[1];
+      var counter = 0;
+      var n = this.attributes.n;
+
+      while (row !== 0 || col !== 0 ) {
+        row --;
+        col --;
+      }
+      while (row < n || col < n) {
+        if (this.attributes[row][col] === 1) {
+          counter++;
+        }
+        row++;
+        col++;
+      }
+      //
+      //row[column] if row + 1 [colum + 1]
+      if (counter > 1) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any major diagonals on this board contain conflicts
