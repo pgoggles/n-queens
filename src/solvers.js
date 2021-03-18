@@ -16,6 +16,40 @@
 
 
 window.findNRooksSolution = function(n) {
+  var board = new Board ({n: n});
+  var solutions = [];
+  var recursion = function (board, rowNumber) {
+    // [1, 0, 0, 0]
+    // [0, 1, 0, 0]
+    // [0, 0, 0, 0]
+    // [0, 0, 0, 0]
+    // rowNumber at 1
+    for (var i = 0; i < n; i++) {
+      var newBoard = board;
+      newBoard.togglePiece(rowNumber, i);
+      if (!newBoard.hasAnyRowConflicts() && !newBoard.hasAnyColConflicts()) {
+        if (rowNumber < n - 1) {
+          recursion(newBoard, rowNumber++);
+        } else if (rowNumber === n - 1) {
+          solutions.push(newBoard);
+        }
+      } else {
+        newBoard.togglePiece(rowNumber, i);
+      }
+    }
+  };
+
+  for (var i = 0; i < n; i++) {
+    var newBoard = board;
+    newBoard.togglePiece(0, i);
+    if (n === 1) {
+      solutions.push(newBoard);
+    } else {
+      recursion(newBoard, 1);
+    }
+  }
+
+  console.log(solutions);
   var solution = undefined; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
